@@ -27,6 +27,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'home',
     'search',
+    'compressor',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -143,6 +144,7 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
 STATICFILES_DIRS = [
@@ -168,3 +170,5 @@ WAGTAIL_SITE_NAME = "miniquizapp"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+
+COMPRESS_PRECOMPILERS = ( ('text/x-scss', 'django_libsass.SassCompiler'), )
