@@ -1,5 +1,12 @@
 .env
+
+# Ignore docker files
 DockerFile
 .dockerignore
+
+# Ignore auto generated python and django folders
 __pycache__/
 migrations/
+
+# Ignore Bootstrap 'scss' files in github.
+scss/
