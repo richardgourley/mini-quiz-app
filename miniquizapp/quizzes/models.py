@@ -39,4 +39,24 @@ class QuizPage(Page):
         InlineFieldPanel('quiz_questions', label='Quiz Questions')
 	]
 
+class QuizQuestion(Orderable):
+	page = ParentalKey(QuizPage, on_delete=models.CASCADE, related_name='quiz_questions')
+	question = models.CharField(
+        max_length=255,
+        unique=False,
+        blank=False,
+        null=False,
+        help_text='Enter a question.'
+	)
+	answer = models.CharField(
+        max_length=400,
+        unique=False,
+        blank=False,
+        null=False,
+        help_text='Enter the answer.'
+	)
 
+	panels = [
+        FieldPanel('question'),
+        FieldPanel('answer')
+	]
