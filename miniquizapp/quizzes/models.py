@@ -2,6 +2,8 @@ from django.db import models
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 
 # Create your models here.
 class QuizIndexPage(Page):
@@ -28,5 +30,13 @@ class QuizPage(Page):
 	)
 	date = models.DateField("Quiz Creation Date")
 
-class QuizQuestion(Orderable):
-	pass
+	content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('name'),
+            FieldPanel('date'),
+        ], heading='General'),
+        FieldPanel('intro'),
+        InlineFieldPanel('quiz_questions', label='Quiz Questions')
+	]
+
+
