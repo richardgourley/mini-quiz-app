@@ -1,7 +1,7 @@
 .env
 
 # Ignore docker files
-DockerFile
+Dockerfile
 .dockerignore
 
 # Ignore auto generated python and django folders
