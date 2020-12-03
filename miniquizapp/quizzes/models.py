@@ -26,3 +26,6 @@ class QuizPage(Page):
         null=True,
         help_text='Give a very brief introduction to this quiz.'
 	)
+
+class QuizQuestion(Orderable):
+	pass
