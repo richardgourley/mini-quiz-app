@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 
 from wagtail.core.models import Page, Orderable
@@ -38,10 +39,11 @@ class QuizPage(Page):
     )
     intro = models.TextField(
         blank=False,
-        null=True,
+        null=False,
         help_text='Give a very brief introduction to this quiz.'
     )
     date = models.DateField("Quiz Creation Date")
+    categories = ParentalManyToManyField('quizzes.QuizCategory', blank=True)
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
@@ -49,6 +51,7 @@ class QuizPage(Page):
             FieldPanel('date'),
         ], heading='General'),
         FieldPanel('intro'),
+        FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
         InlineFieldPanel('quiz_questions', label='Quiz Questions')
     ]
 
@@ -73,10 +76,4 @@ class QuizQuestion(Orderable):
         FieldPanel('question'),
         FieldPanel('answer')
     ]
-
-
-
-    
-
-
 
