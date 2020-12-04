@@ -16,7 +16,8 @@ class QuizCategory(models.Model):
         FieldPanel('name')
     ]
 
-    verbose_name_plural = 'Quiz Categories'
+    class Meta:
+        verbose_name_plural = 'Quiz Categories'
 
 class QuizIndexPage(Page):
     intro = RichTextField(blank=False, null=False, help_text='Enter a short introduction to the index page which lists all quizzes.')
@@ -76,4 +77,6 @@ class QuizQuestion(Orderable):
 
 
     
+
+
 
