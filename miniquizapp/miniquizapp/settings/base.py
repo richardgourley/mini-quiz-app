@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     'home',
     'search',
     'compressor',
+    'quizzes',
 
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
