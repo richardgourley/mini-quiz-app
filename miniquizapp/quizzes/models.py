@@ -10,15 +10,19 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 class QuizCategory(models.Model):
     name = models.CharField(
         max_length=255,
-        unique=True,
-        blank=False
+        blank=False,
+        null=False
     )
+
     panels = [
         FieldPanel('name')
     ]
 
+    def __str__(self):
+        return self.name
+
     class Meta:
-        verbose_name_plural = 'Quiz Categories'
+        verbose_name_plural = 'quiz categories'
 
 class QuizIndexPage(Page):
     intro = RichTextField(blank=False, null=False, help_text='Enter a short introduction to the index page which lists all quizzes.')
@@ -29,14 +33,11 @@ class QuizIndexPage(Page):
         context['quiz_pages'] = quiz_pages
         return context
 
+    content_panels = Page.content_panels + [
+        FieldPanel('intro')
+    ]
+
 class QuizPage(Page):
-    name = models.CharField(
-        max_length=255,
-        unique=True,
-        blank=False,
-        null=False,
-        help_text='Give a name for this quiz.'
-    )
     intro = models.TextField(
         blank=False,
         null=False,
@@ -47,12 +48,11 @@ class QuizPage(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('name'),
             FieldPanel('date'),
+            FieldPanel('intro'),
         ], heading='General'),
-        FieldPanel('intro'),
         FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
-        InlineFieldPanel('quiz_questions', label='Quiz Questions')
+        InlinePanel('quiz_questions', label='Quiz Questions')
     ]
 
 class QuizQuestion(Orderable):
