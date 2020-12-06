@@ -11,11 +11,18 @@ class QuizCategory(models.Model):
     name = models.CharField(
         max_length=255,
         blank=False,
-        null=False
+        null=False, 
+        unique=True
+    )
+    slug = models.SlugField(
+        max_length=255, 
+        unique=True, 
+        help_text='This will be how the category appears in urls eg. sitename/category/slug'
     )
 
     panels = [
-        FieldPanel('name')
+        FieldPanel('name'),
+        FieldPanel('slug')
     ]
 
     def __str__(self):
@@ -76,4 +83,5 @@ class QuizQuestion(Orderable):
         FieldPanel('question'),
         FieldPanel('answer')
     ]
+
 
