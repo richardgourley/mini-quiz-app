@@ -13,3 +13,6 @@ class QuizCategoryDetailView(generic.DetailView):
 class QuizCategoryListView(generic.ListView):
 	model = QuizCategory
 	template_name = 'quizzes/quiz_category_list_view.html'
+
+	def get_queryset(self):
+		return QuizCategory.objects.all()
