@@ -2,6 +2,10 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register)
 from .models import QuizCategory
 
+'''
+Displays 'Quiz Category' in the Wagtail admin menu
+Allows the user to create Quiz Categories
+'''
 class QuizCategoryAdmin(ModelAdmin):
 	model = QuizCategory
 	menu_label = 'Quiz Category'
