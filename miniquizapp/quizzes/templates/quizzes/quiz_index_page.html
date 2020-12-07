@@ -1,0 +1,14 @@
+{% load static %}
+
+<!-- Loads wagtail template tags -->
+{% load wagtailcore_tags %}
+
+<h1>Quiz Index Page</h1>
+
+{{ page.intro|richtext }}
+
+{% for quiz in quiz_pages %}
+<a href="{% pageurl quiz %}">
+  <p class="text-primary"><strong>{{ quiz.title }}</strong></p>
+</a>
+{% endfor %}

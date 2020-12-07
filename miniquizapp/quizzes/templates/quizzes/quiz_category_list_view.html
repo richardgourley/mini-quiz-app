@@ -1,0 +1,12 @@
+{% load static %}
+
+<!-- Loads wagtail template tags -->
+{% load wagtailcore_tags %}
+
+<h1>Quiz category list view</h1>
+
+{% if quizcategory_list %}
+  {% for category in quizcategory_list %}
+    <h1><a href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a></h1>
+  {% endfor %}
+{% endif %}

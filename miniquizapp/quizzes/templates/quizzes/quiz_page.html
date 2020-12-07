@@ -1,0 +1,24 @@
+{% load static %}
+
+<!-- Loads wagtail template tags -->
+{% load wagtailcore_tags %}
+
+<h1>{{ page.title }}</h1>
+
+{{ page.intro|richtext }}
+
+<h3>Categories:
+{% for category in page.categories.all %}
+<span>{{ category.name }} </span>
+{% endfor %}
+</h3>
+
+<h2>Questions</h2>
+{% for question in page.quiz_questions.all %}
+<p style="font-weight: bold;">{{ question.question }}</p>
+{% endfor %}
+
+<h2>Answers</h2>
+{% for question in page.quiz_questions.all %}
+<p style="font-weight: bold;">{{ question.answer }}</p>
+{% endfor %}

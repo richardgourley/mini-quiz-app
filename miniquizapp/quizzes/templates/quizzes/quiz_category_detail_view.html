@@ -1,0 +1,16 @@
+{% load static %}
+
+<!-- Loads wagtail template tags -->
+{% load wagtailcore_tags %}
+
+<h1>Quiz category detail view</h1>
+
+<h1>Category Name: {{ quizcategory.name }}</h1>
+
+{% if quizcategory %}
+  <!--- Reverse ManyToManyField search -->
+  {% for quizpage in quizcategory.quizpage_set.all %}
+    <!--Uses Wagtail pageurl for Wagtail pages instead of Django ' url tag -->
+    <h2><a href="{% pageurl quizpage %}">{{ quizpage.title }}</a></h2>
+  {% endfor %}
+{% endif %}
