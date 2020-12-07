@@ -62,6 +62,13 @@ class QuizPage(Page):
         InlinePanel('quiz_questions', label='Quiz Questions')
     ]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        session = request.session
+        session.get('most_recent_quiz_title', self.title)
+        session.get('most_recent_quiz_url', self.url)
+        return context
+
 class QuizQuestion(Orderable):
     page = ParentalKey(QuizPage, on_delete=models.CASCADE, related_name='quiz_questions')
     question = models.CharField(
