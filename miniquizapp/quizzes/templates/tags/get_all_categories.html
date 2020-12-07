@@ -1,0 +1,7 @@
+<p>All categories:</p>
+
+{% for category in all_categories %}
+<h3>
+	<a href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a>
+</h3>
+{% endfor %}
