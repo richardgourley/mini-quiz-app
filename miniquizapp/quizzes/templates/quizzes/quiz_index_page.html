@@ -3,6 +3,9 @@
 <!-- Loads wagtail template tags -->
 {% load wagtailcore_tags %}
 
+<!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
+{% load quiz_categories %}
+
 <h1>Quiz Index</h1>
 
 {{ page.intro|richtext }}
@@ -13,5 +16,6 @@
 </a>
 {% endfor %}
 
-<h2>Search by category instead..</h2>
-<!-- This tag shows quiz categories -->
+<h2>Browse categories instead..</h2>
+<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
+{% get_all_categories %}
