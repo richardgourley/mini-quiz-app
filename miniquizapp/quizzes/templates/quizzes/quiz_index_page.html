@@ -3,7 +3,7 @@
 <!-- Loads wagtail template tags -->
 {% load wagtailcore_tags %}
 
-<h1>Quiz Index Page</h1>
+<h1>Quiz Index</h1>
 
 {{ page.intro|richtext }}
 
@@ -12,3 +12,6 @@
   <p class="text-primary"><strong>{{ quiz.title }}</strong></p>
 </a>
 {% endfor %}
+
+<h2>Search by category instead..</h2>
+<!-- This tag shows quiz categories -->
