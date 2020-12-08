@@ -1,7 +1,14 @@
+{% extends "base.html" %}
+
 {% load static %}
 
 <!-- Loads wagtail template tags -->
 {% load wagtailcore_tags %}
+
+<!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
+{% load quiz_categories %}
+
+{% block content %}
 
 <h1>{{ page.title }}</h1>
 
@@ -18,7 +25,25 @@
 <p style="font-weight: bold;">{{ question.question }}</p>
 {% endfor %}
 
+<button id="reveal-answers-button">REVEAL ANSWERS!</button>
+
+<div id="quiz-answers">
 <h2>Answers</h2>
 {% for question in page.quiz_questions.all %}
-<p style="font-weight: bold;">{{ question.answer }}</p>
+<p><small>{{ question.question }}</small></p>
+<p style="font-weight: bold; color:green;">{{ question.answer }}</p>
 {% endfor %}
+</div>
+
+<h2>Browse other categories..</h2>
+<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
+{% get_latest_categories %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'quizzes/js/main.js' %}"></script>
+{% endblock %}
+
+
+
