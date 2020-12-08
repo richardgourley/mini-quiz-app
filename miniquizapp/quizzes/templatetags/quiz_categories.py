@@ -5,9 +5,9 @@ register = template.Library()
 
 @register.inclusion_tag("tags/get_latest_categories.html")
 def get_latest_categories():
-	all_categories = QuizCategory.objects.all()[:50]
+	latest_categories = QuizCategory.objects.all()[:50]
 	return {
-	    'all_categories': all_categories
+	    'latest_categories': latest_categories
 	}
 
 @register.inclusion_tag("tags/get_all_categories.html")
