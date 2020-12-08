@@ -1,4 +1,7 @@
 {% load static wagtailuserbar %}
+ 
+<!-- From the package 'django_compressor' -->
+{% load compress %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -20,6 +23,12 @@
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/miniquizapp.css' %}">
 
+        <!-- 'theme.scss' file inherits and overrides bootstrap scss files -->
+        <!-- Check 'settings/base.py' to see how django-libsass and django_compressor are setup -->
+        {% compress css %}
+        <link type="text/x-scss" href="{% static 'theme.scss' %}" rel="stylesheet" media="screen">
+        {% endcompress %}
+
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
@@ -27,6 +36,9 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
+
+        <!-- From 'main_menu.html'-->
+        {% include 'main_menu.html' %}
 
         {% block content %}{% endblock %}
 
