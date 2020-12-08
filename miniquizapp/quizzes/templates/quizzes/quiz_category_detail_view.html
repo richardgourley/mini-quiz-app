@@ -3,7 +3,8 @@
 <!-- Loads wagtail template tags -->
 {% load wagtailcore_tags %}
 
-<h1>Quiz category detail view</h1>
+<!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
+{% load quiz_categories %}
 
 <h1>Category Name: {{ quizcategory.name }}</h1>
 
@@ -14,3 +15,7 @@
     <h2><a href="{% pageurl quizpage %}">{{ quizpage.title }}</a></h2>
   {% endfor %}
 {% endif %}
+
+<h2>Browse other categories..</h2>
+<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
+{% get_all_categories %}
