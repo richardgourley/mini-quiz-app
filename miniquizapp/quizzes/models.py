@@ -65,9 +65,10 @@ class QuizPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         session = request.session
-        session.get('most_recent_quiz_title', self.title)
-        session.get('most_recent_quiz_url', self.url)
+        request.session['most_recent_quiz_title'] = self.title
+        request.session['most_recent_quiz_url'] = self.url
         return context
+
 
 class QuizQuestion(Orderable):
     page = ParentalKey(QuizPage, on_delete=models.CASCADE, related_name='quiz_questions')
@@ -90,5 +91,4 @@ class QuizQuestion(Orderable):
         FieldPanel('question'),
         FieldPanel('answer')
     ]
-
 
