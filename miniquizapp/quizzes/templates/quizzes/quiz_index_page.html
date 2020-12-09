@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
 <!-- Loads wagtail template tags -->
@@ -6,16 +8,26 @@
 <!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
 {% load quiz_categories %}
 
-<h1>Quiz Index</h1>
+{% block content %}
 
-{{ page.intro|richtext }}
+<div class="container">
 
-{% for quiz in quiz_pages %}
-<a href="{% pageurl quiz %}">
-  <p class="text-primary"><strong>{{ quiz.title }}</strong></p>
-</a>
-{% endfor %}
+	<h1>Quiz Index</h1>
 
-<h2>Browse categories instead..</h2>
-<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
-{% get_all_categories %}
+	{{ page.intro|richtext }}
+
+	{% for quiz in quiz_pages %}
+	<div class="container">
+	  <a href="{% pageurl quiz %}">
+	    <p class="text-primary"><strong>{{ quiz.title }}</strong></p>
+	  </a>
+	</div>
+	{% endfor %}
+
+	<h2>Browse categories instead..</h2>
+	<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
+	{% get_all_categories %}
+
+</div><!-- End main container-->
+
+{% endblock %}
