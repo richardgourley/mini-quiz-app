@@ -1,3 +1,4 @@
-/***** STYLING FOR TEMPLATES WITHIN QUIZZES APP ****/
-
-/***** SECTION *****/
+/***** QUIZ PAGE - QUIZ ANSWERS DIV *****/
+#quiz-answers{
+	display: none;
+}
