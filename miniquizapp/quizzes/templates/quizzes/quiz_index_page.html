@@ -10,24 +10,29 @@
 
 {% block content %}
 
-<div class="container">
+<div class="section container">
 
-	<h1>Quiz Index</h1>
+  <div class="section-title">
+	  <h2>Quiz Index</h2>
+	  {{ page.intro|richtext }}
+  </div>
 
-	{{ page.intro|richtext }}
+  <div class="row">
+		{% for quiz in quiz_pages %}
+	    <div class="col-md-4 col-lg-3 mb-3">
+		  	<div class="text-center p-3 border border-light">
+		      <h5>
+			      <a href="{% pageurl quiz %}">{{ quiz.title }}</a>
+			    </h5>
+			    <p><small>{{ quiz.specific.intro }}</small></p>
+		    </div>
+		  </div>
+		{% endfor %}
+  </div><!-- End row-->
 
-	{% for quiz in quiz_pages %}
-	<div class="container">
-	  <a href="{% pageurl quiz %}">
-	    <p class="text-primary"><strong>{{ quiz.title }}</strong></p>
-	  </a>
-	</div>
-	{% endfor %}
+</div><!-- End section container-->
 
-	<h2>Browse categories instead..</h2>
-	<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
-	{% get_all_categories %}
-
-</div><!-- End main container-->
+<!-- Print grid of all categories (template tag from 'load quiz_categories') -->
+{% get_all_categories %}
 
 {% endblock %}
