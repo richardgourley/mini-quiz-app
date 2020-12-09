@@ -1,4 +1,3 @@
-/* 'QUIZ_PAGE.HTML' BUTTON AND DIV */
 /* Button reveals and hides quiz answers. */
 revealAnswersButton = document.getElementById("reveal-answers-button");
 quizAnswers = document.getElementById("quiz-answers");
