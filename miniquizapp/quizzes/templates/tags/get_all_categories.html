@@ -1,7 +1,21 @@
-<p>All categories:</p>
+<div class="section container">
+  <div class="section-title">
+	  <h2>Browse categories</h2>
+	  <p>All categories</p>
+  </div>
+  
+  <div class="row">
+  	{% for category in all_categories %}
+    <div class="col-md-4 col-lg-3 mb-3 p-3">
+	  	<a href="{% url 'quiz_category_detail_view' category.slug %}">
+		    <div class="bg-primary p-4 text-center shadow">
+		      <h3 class="text-white">
+			    {{ category.name }}
+			    </h3>
+		    </div>
+	    </a>
+	  </div>
+	  {% endfor %}
+  </div><!-- End row -->
 
-{% for category in all_categories %}
-<h3>
-	<a href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a>
-</h3>
-{% endfor %}
+</div><!-- End section container -->
