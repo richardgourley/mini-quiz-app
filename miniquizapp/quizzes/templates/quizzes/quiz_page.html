@@ -10,39 +10,61 @@
 
 {% block content %}
 
-<h1>{{ page.title }}</h1>
+<div class="container-fluid">
+  <div class="row">
+    {% get_categories_sidebar %}
+    <div class="col-md-9">
+      
+      <div class="section container">
 
-{{ page.intro|richtext }}
+			  <div class="section-title">
+				  <h2>{{ page.title }}</h2>
+				  {{ page.intro|richtext }}
+				  <p class="py-3"><small>Categories:</small>
+	        {% for category in page.categories.all %}
+	          <button class="btn btn-primary btn-sm">
+              <a class="text-white" href="{% url 'quiz_category_detail_view' category.slug %}">
+                {{ category.name }}
+              </a>
+	          </button>
+	        {% endfor %}
+	        </p>
+			  </div>
 
-<h3>Categories:
-{% for category in page.categories.all %}
-<span>{{ category.name }} </span>
-{% endfor %}
-</h3>
+        <div class="px-2">
+			    <h2>Questions</h2>
+				  <ol>
+				  {% for question in page.quiz_questions.all %}
+				    <li class="questions">{{ question.question }}</li>
+				  {% endfor %}
+			    </ol>
+        </div>
 
-<h2>Questions</h2>
-{% for question in page.quiz_questions.all %}
-<p style="font-weight: bold;">{{ question.question }}</p>
-{% endfor %}
+        <div class="py-4 text-center">
+			    <button class="text-center btn btn-success" id="reveal-answers-button">REVEAL ANSWERS!</button>
+        </div>
 
-<button id="reveal-answers-button">REVEAL ANSWERS!</button>
+        	<div class="px-2" id="quiz-answers">
+					  <h2>Answers</h2>
+					  <ol>
+					  {% for question in page.quiz_questions.all %}
+					    <li><small>{{ question.question }}</small></li>
+					    <p style="font-weight: bold; color:green;">{{ question.answer }}</p>
+					  {% endfor %}
+				      </ol>
+					</div>
 
-<div id="quiz-answers">
-<h2>Answers</h2>
-{% for question in page.quiz_questions.all %}
-<p><small>{{ question.question }}</small></p>
-<p style="font-weight: bold; color:green;">{{ question.answer }}</p>
-{% endfor %}
-</div>
+			</div><!-- End section container-->
 
-<h2>Browse other categories..</h2>
-<!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
-{% get_latest_categories %}
+    </div>
+  </div>
+</div><!-- End container-fluid-->
+
 
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{% static 'quizzes/js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'quizzes/js/quizzes.js' %}"></script>
 {% endblock %}
 
 
