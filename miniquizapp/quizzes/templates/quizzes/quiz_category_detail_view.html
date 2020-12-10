@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 {% load static %}
 
 <!-- Loads wagtail template tags -->
@@ -5,6 +7,52 @@
 
 <!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
 {% load quiz_categories %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    {% get_categories_sidebar %}
+    <div class="col-md-9">
+
+      <div class="section container">
+        
+        <div class="section-title">
+          <h5>QUIZ CATEGORY:</h5>
+          <h2>{{ quizcategory.name }}</h2>
+        </div>
+
+        <div class="row">
+					{% for quiz in quizcategory.quizpage_set.all %}
+				    <div class="col-md-2 col-lg-4 mb-3">
+					  	<div class="text-center p-3 border border-light shadow-sm">
+					      <h5>
+						      <a href="{% pageurl quiz %}">{{ quiz.title }}</a>
+						    </h5>
+						    <p><small>{{ quiz.specific.intro }}</small></p>
+					    </div>
+					  </div>
+					{% endfor %}
+			  </div><!-- End row-->
+
+      </div><!-- End section container-->
+
+    </div>
+  </div><!-- End row -->
+</div><!-- End container-fluid-->
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <h1>Category Name: {{ quizcategory.name }}</h1>
 
@@ -19,3 +67,5 @@
 <h2>Browse other categories..</h2>
 <!-- This tag is a function found in 'quizzes/templatetags/quiz_categories.py' -->
 {% get_all_categories %}
+
+{% endblock %}
