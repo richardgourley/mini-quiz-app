@@ -11,6 +11,10 @@
     font-weight: bold;
 }
 
+.nav-brand:hover {
+    color: grey;
+}
+
 /***** SECTION *****/
 .section {
 	padding: 60px 0;
@@ -24,6 +28,11 @@
 /******* SECTION OUTER *******/
 .section-outer {
 	border-bottom: 1px solid lightgrey;
+}
+
+/********** QUESTIONS ************/
+.questions {
+	padding-bottom: 12px;
 }
 
 
