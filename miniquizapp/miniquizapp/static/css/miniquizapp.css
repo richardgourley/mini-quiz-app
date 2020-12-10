@@ -2,15 +2,28 @@
 	display: none;
 }
 
+/****** NAV MAIN MENU ******/
+.nav-link{
+    font-weight: bold;
+}
+
+.navbar-brand{
+    font-weight: bold;
+}
+
 /***** SECTION *****/
 .section {
 	padding: 60px 0;
-    border-bottom: 1px solid lightgrey;
 }
 
 .section-title {
     text-align: center;
     padding-bottom: 30px;
+}
+
+/******* SECTION OUTER *******/
+.section-outer {
+	border-bottom: 1px solid lightgrey;
 }
 
 
