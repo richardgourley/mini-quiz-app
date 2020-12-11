@@ -1,21 +1,23 @@
-<div class="section container">
-  <div class="section-title">
-	  <h2>Browse categories</h2>
-	  <p>All categories</p>
-  </div>
-  
-  <div class="row">
-  	{% for category in all_categories %}
-    <div class="col-md-4 col-lg-3 mb-3 p-3">
-	  	<a href="{% url 'quiz_category_detail_view' category.slug %}">
-		    <div class="bg-primary p-4 text-center shadow">
-		      <h3 class="text-white">
-			    {{ category.name }}
-			    </h3>
-		    </div>
-	    </a>
+<div class="homepage-section container-fluid">
+	<div class="section container">
+	  <div class="section-title">
+		  <h2>Browse categories</h2>
+		  <p>All categories</p>
 	  </div>
-	  {% endfor %}
-  </div><!-- End row -->
+	  
+	  <div class="row">
+	  	{% for category in all_categories %}
+	    <div class="col-md-4 col-lg-3 mb-3 p-3">
+		  	<a href="{% url 'quiz_category_detail_view' category.slug %}">
+			    <div class="bg-primary p-4 text-center shadow">
+			      <h3 class="text-white">
+				    {{ category.name }}
+				    </h3>
+			    </div>
+		    </a>
+		  </div>
+		  {% endfor %}
+	  </div><!-- End row -->
 
-</div><!-- End section container -->
+	</div><!-- End section container -->
+</div><!-- End container-fluid-->
