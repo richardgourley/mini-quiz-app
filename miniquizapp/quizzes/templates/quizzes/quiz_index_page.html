@@ -10,34 +10,33 @@
 
 {% block content %}
 
-<div class="section-outer container-fluid">
+<div class="container-fluid">
+    <div class="row">
+    	<!-- Gets the sidebar displaying categores--->
+        {% get_categories_sidebar %}
 
-	<div class="section container">
-
-	  <div class="section-title">
-		  <h2>Quiz Index</h2>
-		  {{ page.intro|richtext }}
-	  </div>
-
-	  <div class="row">
-			{% for quiz in quiz_pages %}
-		    <div class="col-md-4 col-lg-3 mb-3">
-			  	<div class="text-center p-3 border border-light shadow-sm">
-			      <h5>
-				      <a href="{% pageurl quiz %}">{{ quiz.title }}</a>
-				    </h5>
-				    <p><small>{{ quiz.specific.intro }}</small></p>
+        <div class="col-md-9 px-4">
+        	<div class="section container">
+                <div class="section-title">
+				    <h2>Quiz Index</h2>
+				    {{ page.intro|richtext }}
 			    </div>
-			  </div>
-			{% endfor %}
-	  </div><!-- End row-->
+			    {% for quiz in quiz_pages %}
+			    <div class="row text-center p-4 border border-light mb-4">
+		            <div class="col-md-4">
+			            <h5>
+				            <a href="{% pageurl quiz %}">{{ quiz.title }}</a>
+				        </h5>
+			        </div>
+			        <div class="col-md-8">
+                        <p><small>{{ quiz.specific.intro }}</small></p>
+			        </div>
+	            </div><!-- End row-->
+	            {% endfor %}
+        	</div><!-- End section container -->
+        </div><!-- End col-md-9 -->
 
-	</div><!-- End section container-->
-
-</div><!-- End section outer container-fluid -->
-
-
-<!-- Print grid of all categories (template tag from 'load quiz_categories') -->
-{% get_all_categories %}
+    </div><!-- End row -->
+</div><!-- End container fluid-->
 
 {% endblock %}
