@@ -11,53 +11,55 @@
 {% block content %}
 
 <div class="container-fluid">
-  <div class="row">
-    {% get_categories_sidebar %}
-    <div class="col-md-9">
+    <div class="row">
+        {% get_categories_sidebar %}
+        <div class="col-md-9">
       
-      <div class="section container">
+	        <div class="section container">
 
-			  <div class="section-title">
-				  <h2>{{ page.title }}</h2>
-				  {{ page.intro|richtext }}
-				  <p class="py-3"><small>Categories:</small>
-	        {% for category in page.categories.all %}
-	          <button class="btn btn-primary btn-sm">
-              <a class="text-white" href="{% url 'quiz_category_detail_view' category.slug %}">
-                {{ category.name }}
-              </a>
-	          </button>
-	        {% endfor %}
-	        </p>
-			  </div>
+				<div class="section-title">
+					<h2>{{ page.title }}</h2>
+					{{ page.intro|richtext }}
+					<p class="py-3"><small>Categories:</small>
+		            {% for category in page.categories.all %}
+		                <button class="btn btn-primary btn-sm">
+	                    <a class="text-white" href="{% url 'quiz_category_detail_view' category.slug %}">
+	                    {{ category.name }}
+	                    </a>
+		                </button>
+		            {% endfor %}
+		            </p>
+				</div>
 
-        <div class="px-2">
-			    <h2>Questions</h2>
-				  <ol>
-				  {% for question in page.quiz_questions.all %}
-				    <li class="questions">{{ question.question }}</li>
-				  {% endfor %}
-			    </ol>
-        </div>
+	            <div class="px-2">
+				    <h2>Questions</h2>
+					<ol>
+					{% for question in page.quiz_questions.all %}
+					    <li class="questions">{{ question.question }}</li>
+					{% endfor %}
+				    </ol>
+	            </div>
 
-        <div class="py-4 text-center">
-			    <button class="text-center btn btn-success" id="reveal-answers-button">REVEAL ANSWERS!</button>
-        </div>
+	            <div class="py-4 text-center">
+				    <button class="text-center btn btn-success" id="reveal-answers-button">REVEAL ANSWERS!</button>
+	            </div>
 
-        	<div class="px-2" id="quiz-answers">
-					  <h2>Answers</h2>
-					  <ol>
-					  {% for question in page.quiz_questions.all %}
+	      	    <div class="px-2" id="quiz-answers">
+					<h2>Answers</h2>
+					<ol>
+					{% for question in page.quiz_questions.all %}
 					    <li><small>{{ question.question }}</small></li>
-					    <p style="font-weight: bold; color:green;">{{ question.answer }}</p>
-					  {% endfor %}
-				      </ol>
-					</div>
+					    <p style="font-weight: bold; color:green;">
+					    {{ question.answer }}
+					    </p>
+					{% endfor %}
+				    </ol>
+			    </div>
 
-			</div><!-- End section container-->
+		    </div><!-- End section container-->
 
+        </div>
     </div>
-  </div>
 </div><!-- End container-fluid-->
 
 
