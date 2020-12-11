@@ -1,21 +1,32 @@
 {% extends "base.html" %}
+
 {% load static %}
 
-{% block body_class %}template-homepage{% endblock %}
+<!-- Loads wagtail template tags -->
+{% load wagtailcore_tags %}
 
-{% block extra_css %}
+<!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
+{% load quiz_categories %}
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
 
 {% block content %}
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+<!-- Displays 'tags/get_latest_quizzes.html' -->
+{% get_latest_quizzes %}
+
+<!-- Call to action to visit Quiz Index Page -->
+<div class="container-fluid bg-primary">
+	<div class="section container">
+        <div class="text-center text-white">
+            <h2 class="pb-3">Find a quiz on our Quiz Index page</h2>
+            <a href="{% slugurl 'quizzes' %}">
+                <button class="btn btn-light">Go!</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Display 'tags/get_all_categories.html' -->
+{% get_all_categories %}
 
 {% endblock content %}
