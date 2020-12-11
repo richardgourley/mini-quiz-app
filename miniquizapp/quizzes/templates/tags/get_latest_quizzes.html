@@ -1,0 +1,27 @@
+{% load wagtailcore_tags %}
+
+<div class="homepage-section container-fluid">
+	<div class="section container">
+
+	    <div class="section-title">
+		    <h2>Welcome to the Mini Quiz App</h2>
+		    <p>Here are the most recently added quizzes</p>
+	    </div>
+	  
+	    <div class="row">
+
+	  	    {% for quiz in latest_quizzes %}
+	        <div class="col-md-4 col-lg-3 mb-3 p-3">
+			    <div class="text-center p-3 border border-light shadow-sm">
+				    <a href="{% pageurl quiz %}">
+			            <h5>{{ quiz.title }}</h5>
+			        </a>
+                    <p><small>{{ quiz.specific.intro }}</small></p>
+			    </div>
+		    </div>
+		    {% endfor %}
+
+	    </div><!-- End row -->
+
+	</div><!-- End section container -->
+</div><!-- End container-fluid-->
