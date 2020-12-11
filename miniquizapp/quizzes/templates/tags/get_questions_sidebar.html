@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+
+<div class="col-md-3 bg-light p-5">
+    <h4><strong>Quizzes</strong></h4>
+    {% for page in questions_sidebar %}
+    <p>
+        <a class="text-grey" href="{% pageurl page %}">{{ page.title }}</a>
+    </p>
+    {% endfor %}
+</div>
