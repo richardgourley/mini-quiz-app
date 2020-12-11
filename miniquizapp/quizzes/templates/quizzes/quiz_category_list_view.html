@@ -1,12 +1,24 @@
+{% extends "base.html" %}
+
 {% load static %}
 
 <!-- Loads wagtail template tags -->
 {% load wagtailcore_tags %}
 
-<h1>Categories</h1>
+<!-- Loads template tags in 'quizzes/templatetags/quiz_categories.py' --->
+{% load quiz_categories %}
 
-{% if quizcategory_list %}
-  {% for category in quizcategory_list %}
-    <h1><a href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a></h1>
-  {% endfor %}
-{% endif %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        {% get_questions_sidebar %}
+        <div class="col-md-9">
+            {% get_all_categories %}
+        </div>
+    </div><!-- End row -->
+</div><!-- End container-fluid-->
+
+
+
+{% endblock %}
