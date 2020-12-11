@@ -1,33 +1,33 @@
 {% load wagtailcore_tags %}
 
 <div class="container-fluid bg-white shadow-sm">
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
     	
-	  <a class="navbar-brand text-primary" href="{% slugurl 'home' %}">
-	    Mini Quiz App
-	  </a>  
+	    <a class="navbar-brand text-primary" href="{% slugurl 'home' %}">
+	      Mini Quiz App
+	    </a>  
  
-	  <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
+	    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
 
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    <ul class="navbar-nav ml-auto">
-	      <li class="nav-item mr-3 active">
-	        <a class="nav-link text-primary" href="{% slugurl 'home' %}">Home <span class="sr-only">(current)</span></a>
-	      </li>
-	      <li class="nav-item mr-3">
-	        <a class="nav-link text-primary" href="{% url 'quiz_category_list_view' %}">Quiz Categories</a>
-	      </li>
-	      <li class="nav-item mr-3">
-	        <a class="nav-link text-primary" href="{% slugurl 'quizzes' %}">Quiz Index</a>
-	      </li>
-	      <li>
-            <button class="btn btn-outline-success">Contact!</button>
-	      </li>
-	    </ul>
-	  </div>
-    </nav>
-  </div>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item mr-3 active">
+	                <a class="nav-link text-primary" href="{% slugurl 'home' %}">Home <span class="sr-only">(current)</span></a>
+	            </li>
+	            <li class="nav-item mr-3">
+	                <a class="nav-link text-primary" href="{% url 'quiz_category_list_view' %}">Quiz Categories</a>
+	            </li>
+	            <li class="nav-item mr-3">
+	                <a class="nav-link text-primary" href="{% slugurl 'quizzes' %}">Quiz Index</a>
+	            </li>
+	            <li>
+                    <button class="btn btn-outline-success">Contact!</button>
+	            </li>
+	        </ul>
+	    </div>
+        </nav>
+    </div>
 </div>
