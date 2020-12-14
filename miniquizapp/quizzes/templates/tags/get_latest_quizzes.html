@@ -10,8 +10,8 @@
     <div class="row">
 
   	    {% for quiz in latest_quizzes %}
-        <div class="col-md-4 col-lg-3 mb-3 p-3">
-		    <div class="text-center p-3 border border-light shadow-sm">
+        <div class="col-md-4 col-lg-3 mb-4">
+		    <div class="card h-100 question-box">
 			    <a href="{% pageurl quiz %}">
 		            <h5>{{ quiz.title }}</h5>
 		        </a>
