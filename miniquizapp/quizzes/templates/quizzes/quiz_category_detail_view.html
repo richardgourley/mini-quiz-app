@@ -25,7 +25,7 @@
                 <div class="row">
                     {% for quiz in quizcategory.quizpage_set.all %}
                     <div class="col-md-2 col-lg-4 mb-3">
-                        <div class="text-center p-3 border border-light shadow-sm">
+                        <div class="question-box text-center">
                             <h5>
                                 <a href="{% pageurl quiz %}">{{ quiz.title }}</a>
                             </h5>
