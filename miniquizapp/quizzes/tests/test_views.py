@@ -1,2 +1,2 @@
-# WagtailPageTest extends django.test.TestCase
-from wagtail.test.utils import WagtailPageTest
+from django.test import Client
+from quizzes.models import QuizIndexPage
