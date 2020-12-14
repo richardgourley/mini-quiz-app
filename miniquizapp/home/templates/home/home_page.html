@@ -12,7 +12,9 @@
 {% block content %}
 
 <!-- Displays 'tags/get_latest_quizzes.html' -->
-{% get_latest_quizzes %}
+<div class="homepage-container-fluid container-fluid">
+    {% get_latest_quizzes %}
+</div>
 
 <!-- Call to action to visit Quiz Index Page -->
 <div class="container-fluid bg-primary">
@@ -27,6 +29,8 @@
 </div>
 
 <!-- Display 'tags/get_all_categories.html' -->
-{% get_all_categories %}
+<div class="homepage-section">
+    {% get_all_categories %}
+</div>
 
 {% endblock content %}
