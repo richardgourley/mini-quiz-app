@@ -35,6 +35,30 @@
 	padding-bottom: 12px;
 }
 
+/*********** QUESTION BOX (Used in 'get_latest_quizzes' quizzes/tags)***************/
+.question-box {
+	padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0px 0 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.question-box h5 {
+	font-weight:600;
+	font-size: 17px;
+}
+
+/********** CATEGORY BOX (Used in 'get_all_categories' quizzes/tags)****************/
+.category-box {
+	padding:20px;
+	justify-content: center;
+	border-radius:0px;
+	box-shadow: 0px 0 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.category-box h3 {
+	font-size:20px;
+	font-weight:600;
+}
 
 
 
