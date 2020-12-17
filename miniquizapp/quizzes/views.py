@@ -17,14 +17,4 @@ class QuizCategoryListView(generic.ListView):
     def get_queryset(self):
         return QuizCategory.objects.all()
 
-    def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-       context['most_recent_quiz_info'] = get_most_recent_quiz_info(self)
-       return context
-
-def get_most_recent_quiz_info(self):
-    test_dict1 = dict()
-    test_dict1['title'] = self.request.session['most_recent_quiz_title']
-    test_dict1['url'] = self.request.session['most_recent_quiz_url']
-    return test_dict1
 
