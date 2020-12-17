@@ -12,8 +12,20 @@
 
 <div class="container-fluid">
     <div class="row">
-    	<!-- Gets the sidebar displaying categories--->
-        {% get_categories_sidebar %}
+
+    	<div class="col-md-3 bg-light p-5">
+    		<!-- Displays last quiz visited -->
+            {% if latest_quiz_visited_info %}
+                <h5><strong>Recently visited:</strong></h5>
+                <p>
+                    <a href="{{ latest_quiz_visited_info.url }}">
+                        <small>{{ latest_quiz_visited_info.title }}</small>
+                    </a>
+                </p>
+            {% endif %}
+            <!-- Displays categories in sidebar--->
+            {% get_categories_sidebar %}
+        </div>
 
         <div class="col-md-9 px-4">
         	<div class="section container">
