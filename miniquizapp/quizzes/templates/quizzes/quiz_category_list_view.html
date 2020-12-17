@@ -10,15 +10,28 @@
 
 {% block content %}
 
-<h2>{{ most_recent_quiz_info.title }}</h2>
-<h2>{{ most_recent_quiz_info.url }}</h2>
-
 <div class="container-fluid">
     <div class="row">
-        {% get_questions_sidebar %}
+
+    	<!-- Sidebar -->
+    	<div class="col-md-3 bg-light p-5">
+    		<!-- Displays last quiz visited -->
+    		{% if latest_quiz_visited_info %}
+				<h5><strong>Recently visited:</strong></h5>
+				<p>
+					<a href="{{ latest_quiz_visited_info.url }}">
+					    <small>{{ latest_quiz_visited_info.title }}</small>
+					</a>
+				</p>
+			{% endif %}
+			<!-- Displays all quizzes -->
+            {% get_questions_sidebar %}
+        </div>
+
         <div class="col-md-9">
             {% get_all_categories %}
         </div>
+
     </div><!-- End row -->
 </div><!-- End container-fluid-->
 
