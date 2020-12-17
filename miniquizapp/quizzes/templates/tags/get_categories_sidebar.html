@@ -1,8 +1,6 @@
-<div class="col-md-3 bg-light p-5">
-    <h4><strong>Quiz Categories</strong></h4>
-    {% for category in categories_sidebar %}
-    <p>
-        <a class="text-grey" href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a>
-    </p>
-    {% endfor %}
-</div>
+<h4><strong>Quiz Categories</strong></h4>
+{% for category in categories_sidebar %}
+<p>
+    <a class="text-grey" href="{% url 'quiz_category_detail_view' category.slug %}">{{ category.name }}</a>
+</p>
+{% endfor %}
