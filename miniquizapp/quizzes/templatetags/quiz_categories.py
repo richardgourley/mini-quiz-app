@@ -17,11 +17,11 @@ def get_categories_sidebar():
 	    'categories_sidebar': categories_sidebar
 	}
 
-@register.inclusion_tag("tags/get_questions_sidebar.html")
-def get_questions_sidebar():
-	questions_sidebar = QuizPage.objects.live()
+@register.inclusion_tag("tags/get_quizzes_sidebar.html")
+def get_quizzes_sidebar():
+	quizzes_sidebar = QuizPage.objects.live()
 	return {
-	    'questions_sidebar': questions_sidebar
+	    'quizzes_sidebar': quizzes_sidebar
 	}
 
 @register.inclusion_tag("tags/get_latest_quizzes.html")
