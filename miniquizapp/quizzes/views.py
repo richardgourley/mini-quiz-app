@@ -18,10 +18,13 @@ class QuizCategoryListView(generic.ListView):
         return QuizCategory.objects.all()
 
     def get_context_data(self, **kwargs):
-       data = super().get_context_data(**kwargs)
-       most_recent_quiz_title = self.request.session['most_recent_quiz_title']
-       most_recent_quiz_url = self.request.session['most_recent_quiz_url']
-       data['most_recent_quiz_title'] = most_recent_quiz_title
-       data['most_recent_quiz_url'] = most_recent_quiz_url
-       return data
+       context = super().get_context_data(**kwargs)
+       context['most_recent_quiz_info'] = get_most_recent_quiz_info(self)
+       return context
+
+def get_most_recent_quiz_info(self):
+    test_dict1 = dict()
+    test_dict1['title'] = self.request.session['most_recent_quiz_title']
+    test_dict1['url'] = self.request.session['most_recent_quiz_url']
+    return test_dict1
 
