@@ -3,15 +3,16 @@ from django.utils import timezone
 from quizzes.models import QuizCategory, QuizPage, QuizIndexPage, QuizQuestion
 from home.models import HomePage
 
-class QuizCategoryTests(TestCase):
-	@classmethod
-	def setUpTestData(cls):
-		cls.quiz_category1 = QuizCategory.objects.create(
-                name="Food and drink",
-                slug="food_and_drink"
-			)
+def create_quiz_category():
+	return QuizCategory.objects.create(
+        name="Sports",
+        slug="sports"
+    )
 
-	def test_str(self):
-		self.assertEqual(str(quiz_category1), "Food and drink")
+class QuizCategoryModelTests(TestCase):
+
+	def test_str_equal_to_name(self):
+	    quiz_category = create_quiz_category()
+	    self.assertEqual(str(quiz_category), quiz_category.name) 
 
 
