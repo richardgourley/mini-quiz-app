@@ -10,8 +10,13 @@ class MyTestClass(TestCase):
     def setUp(self):
         pass
 
-    def test_expected_category_str(self):
+    def test_quiz_category_str(self):
         quiz_category = QuizCategory.objects.get(id=1)
-        self.assertEqual(str(quiz_category), 'Sports') 
+        self.assertEqual(str(quiz_category), 'Sports')
+
+    def test_quiz_category_name_max_length(self):
+        quiz_category = QuizCategory.objects.get(id=1)
+        max_length = quiz_category._meta.get_field('name').max_length
+        self.assertEqual(max_length, 255) 
 
 
