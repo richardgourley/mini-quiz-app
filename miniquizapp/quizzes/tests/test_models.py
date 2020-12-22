@@ -17,6 +17,16 @@ class MyTestClass(TestCase):
     def test_quiz_category_name_max_length(self):
         quiz_category = QuizCategory.objects.get(id=1)
         max_length = quiz_category._meta.get_field('name').max_length
-        self.assertEqual(max_length, 255) 
+        self.assertEqual(max_length, 255)
+
+    def test_quiz_category_slug_max_length(self):
+        quiz_category = QuizCategory.objects.get(id=1)
+        max_length = quiz_category._meta.get_field('slug').max_length
+        self.assertEqual(max_length, 255)
+
+    def test_quiz_category_slug_is_unique(self):
+        quiz_category = QuizCategory.objects.get(id=1)
+        unique = quiz_category._meta.get_field('slug').unique
+        self.assertTrue(unique) 
 
 
