@@ -1,18 +1,17 @@
 from django.test import TestCase
-from django.utils import timezone
-from quizzes.models import QuizCategory, QuizPage, QuizIndexPage, QuizQuestion
-from home.models import HomePage
+from quizzes.models import QuizCategory
 
-def create_quiz_category():
-	return QuizCategory.objects.create(
-        name="Sports",
-        slug="sports"
-    )
+class MyTestClass(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Non modified object used by all classes
+        QuizCategory.objects.create(name="Sports", slug="sport")
 
-class QuizCategoryModelTests(TestCase):
+    def setUp(self):
+        pass
 
-	def test_str_equal_to_name(self):
-	    quiz_category = create_quiz_category()
-	    self.assertEqual(str(quiz_category), quiz_category.name) 
+    def test_expected_category_str(self):
+        quiz_category = QuizCategory.objects.get(id=1)
+        self.assertEqual(str(quiz_category), 'Sports') 
 
 
