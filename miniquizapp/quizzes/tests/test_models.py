@@ -1,7 +1,7 @@
 from django.test import TestCase
 from quizzes.models import QuizCategory
 
-class MyTestClass(TestCase):
+class QuizCategoryTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Non modified object used by all classes
