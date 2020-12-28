@@ -9,21 +9,6 @@ class QuizCategoryTests(TestCase):
     def setUpTestData(cls):
         # Non modified object used by all classes
         QuizCategory.objects.create(name="Sports", slug="sport")
-        '''
-        Get HOME page
-        '''
-        site = Site.objects.get(is_default_site=True)
-        home_page = site.root_page
-        '''
-        Create and add QUIZPAGE to HOME page
-        '''
-        quiz_page = QuizPage(
-            title='Tennis Quiz',
-            intro='An introduction to Quiz Test 1',
-            date=timezone.now(),
-        )
-        home_page.add_child(instance=quiz_page)
-
 
     def setUp(self):
         pass
@@ -46,4 +31,23 @@ class QuizCategoryTests(TestCase):
         quiz_category = QuizCategory.objects.get(id=1)
         unique = quiz_category._meta.get_field('slug').unique
         self.assertTrue(unique)
+
+class QuizPageTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+                '''
+        Get HOME page
+        '''
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+        '''
+        Create and add QUIZPAGE to HOME page
+        '''
+        quiz_page = QuizPage(
+            title='Tennis Quiz',
+            intro='An introduction to Quiz Test 1',
+            date=timezone.now(),
+        )
+        home_page.add_child(instance=quiz_page)
+
 
