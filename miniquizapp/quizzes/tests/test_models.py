@@ -53,4 +53,15 @@ class QuizPageTests(TestCase):
     def test_slug_created(self):
         quiz_page = QuizPage.objects.get(title='Tennis Quiz')
         self.assertEqual(quiz_page.slug, 'tennis-quiz')
+
+    def test_intro_null_is_false(self):
+        quiz_page = QuizPage.objects.get(title='Tennis Quiz')
+        intro_null = quiz_page._meta.get_field('intro').null
+        self.assertFalse(intro_null)
+
+    def test_intro_blank_is_false(self):
+        quiz_page = QuizPage.objects.get(title='Tennis Quiz')
+        intro_blank = quiz_page._meta.get_field('intro').blank
+        self.assertFalse(intro_blank)
+
         
