@@ -35,13 +35,13 @@ class QuizCategoryTests(TestCase):
 class QuizPageTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-                '''
+        '''
         Get HOME page
         '''
         site = Site.objects.get(is_default_site=True)
         home_page = site.root_page
         '''
-        Create and add QUIZPAGE to HOME page
+        Create and add QUIZPAGE as sub page of HOME page
         '''
         quiz_page = QuizPage(
             title='Tennis Quiz',
@@ -50,4 +50,7 @@ class QuizPageTests(TestCase):
         )
         home_page.add_child(instance=quiz_page)
 
-
+    def test_slug_created(self):
+        quiz_page = QuizPage.objects.get(title='Tennis Quiz')
+        self.assertEqual(quiz_page.slug, 'tennis-quiz')
+        
