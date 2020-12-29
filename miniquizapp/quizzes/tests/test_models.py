@@ -71,7 +71,7 @@ class QuizPageTests(TestCase):
 
     def test_date_field_year_length(self):
         quiz_page = QuizPage.objects.get(title='Tennis Quiz')
-        year = quiz_page._meta.get_field('date').year
+        year = quiz_page.date.year
         self.assertEqual(len(str(year)), 4)
 
         
