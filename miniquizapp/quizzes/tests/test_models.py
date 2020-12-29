@@ -3,6 +3,7 @@ from quizzes.models import QuizCategory, QuizPage
 from wagtail.core.models import Site
 
 from django.utils import timezone
+import datetime
 
 class QuizCategoryTests(TestCase):
     @classmethod
@@ -63,5 +64,14 @@ class QuizPageTests(TestCase):
         quiz_page = QuizPage.objects.get(title='Tennis Quiz')
         intro_blank = quiz_page._meta.get_field('intro').blank
         self.assertFalse(intro_blank)
+
+    def test_date_field_is_date(self):
+        quiz_page = QuizPage.objects.get(title='Tennis Quiz')
+        self.assertEqual(type(quiz_page.date), datetime.date)
+
+    def test_date_field_year_length(self):
+        quiz_page = QuizPage.objects.get(title='Tennis Quiz')
+        year = quiz_page._meta.get_field('date').year
+        self.assertEqual(len(str(year)), 4)
 
         
