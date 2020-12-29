@@ -74,4 +74,33 @@ class QuizPageTests(TestCase):
         year = quiz_page.date.year
         self.assertEqual(len(str(year)), 4)
 
+class QuizQuestionTests(TestCase):
+    @classmethod
+    def setUpTestDate(cls):
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+        #Create 'quiz_page' and add as sub page of 'home_page'
+        quiz_page = QuizPage(
+            title='Tennis Quiz',
+            intro='An introduction to Quiz Test 1',
+            date=timezone.now(),
+        )
+        home_page.add_child(instance=quiz_page)
+
+        QuizQuestion.objects.create(
+            page=quiz_page, 
+            question='Who is a famous tennis player called Roger?', 
+            answer='Roger Federer'
+        )
+
+    def test_quiz_question_page_is_type_quiz_page(self):
+        quiz_question = QuizQuestion.objects.all()[0]
+        self.assertEqual(quiz_question.page, QuizPage)
+
+    def test_quiz_question_parental_key_title(self):
+        # Get only quiz question
+        quiz_question = QuizQuestion.objects.all()[0]
+        self.assertEqual(quiz_question.page.title, 'Tennis Quiz')
+
+
         
