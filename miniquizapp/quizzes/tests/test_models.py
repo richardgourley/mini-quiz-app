@@ -1,5 +1,5 @@
 from django.test import TestCase
-from quizzes.models import QuizCategory, QuizPage
+from quizzes.models import QuizCategory, QuizPage, QuizQuestion
 from wagtail.core.models import Site
 
 from django.utils import timezone
@@ -76,7 +76,7 @@ class QuizPageTests(TestCase):
 
 class QuizQuestionTests(TestCase):
     @classmethod
-    def setUpTestDate(cls):
+    def setUpTestData(cls):
         site = Site.objects.get(is_default_site=True)
         home_page = site.root_page
         #Create 'quiz_page' and add as sub page of 'home_page'
@@ -87,19 +87,21 @@ class QuizQuestionTests(TestCase):
         )
         home_page.add_child(instance=quiz_page)
 
-        QuizQuestion.objects.create(
-            page=quiz_page, 
+
+    def test_quiz_question_page_is_type_quiz_page(self):
+        quiz_question = QuizQuestion(
+            page=QuizPage.objects.get(title='Tennis Quiz'), 
             question='Who is a famous tennis player called Roger?', 
             answer='Roger Federer'
         )
-
-    def test_quiz_question_page_is_type_quiz_page(self):
-        quiz_question = QuizQuestion.objects.all()[0]
-        self.assertEqual(quiz_question.page, QuizPage)
+        self.assertEqual(type(quiz_question.page), QuizPage)
 
     def test_quiz_question_parental_key_title(self):
-        # Get only quiz question
-        quiz_question = QuizQuestion.objects.all()[0]
+        quiz_question = QuizQuestion(
+            page=QuizPage.objects.get(title='Tennis Quiz'), 
+            question='Who is a famous tennis player called Roger?', 
+            answer='Roger Federer'
+        )
         self.assertEqual(quiz_question.page.title, 'Tennis Quiz')
 
 
