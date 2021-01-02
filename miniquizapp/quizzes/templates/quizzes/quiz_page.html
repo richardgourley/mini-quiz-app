@@ -27,7 +27,7 @@
 					<p class="py-3"><small>Categories:</small>
 		            {% for category in page.categories.all %}
 		                <button class="btn btn-primary btn-sm">
-	                    <a class="text-white" href="{% url 'quiz_category_detail_view' category.slug %}">
+	                    <a class="text-white" href="{% url 'quizzes:quiz_category_detail_view' category.slug %}">
 	                    {{ category.name }}
 	                    </a>
 		                </button>
