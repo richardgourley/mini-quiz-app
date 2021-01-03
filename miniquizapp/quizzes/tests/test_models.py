@@ -87,74 +87,50 @@ class QuizQuestionTests(TestCase):
         )
         home_page.add_child(instance=quiz_page)
 
-
-    def test_quiz_question_page_is_type_quiz_page(self):
+    def create_quiz_question(self):
         quiz_question = QuizQuestion(
             page=QuizPage.objects.get(title='Tennis Quiz'), 
             question='Who is a famous tennis player called Roger?', 
             answer='Roger Federer'
         )
+        return quiz_question
+
+
+    def test_quiz_question_page_is_type_quiz_page(self):
+        quiz_question = self.create_quiz_question()
         self.assertEqual(type(quiz_question.page), QuizPage)
 
     def test_quiz_question_parental_key_title(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         self.assertEqual(quiz_question.page.title, 'Tennis Quiz')
 
     def test_question_max_length(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         max_length = quiz_question._meta.get_field('question').max_length
         self.assertEqual(max_length, 255)
 
     def test_question_null_false(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         is_null = quiz_question._meta.get_field('question').null
         self.assertFalse(is_null)
 
     def test_question_help_text(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         help_text = quiz_question._meta.get_field('question').help_text
         self.assertEqual(help_text, 'Enter a question.')
 
     def test_answer_max_length(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         max_length = quiz_question._meta.get_field('answer').max_length
         self.assertEqual(max_length, 400)
 
     def test_answer_null_false(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         is_null = quiz_question._meta.get_field('answer').null
         self.assertFalse(is_null)
 
     def test_answer_help_text(self):
-        quiz_question = QuizQuestion(
-            page=QuizPage.objects.get(title='Tennis Quiz'), 
-            question='Who is a famous tennis player called Roger?', 
-            answer='Roger Federer'
-        )
+        quiz_question = self.create_quiz_question()
         help_text = quiz_question._meta.get_field('answer').help_text
         self.assertEqual(help_text, 'Enter the answer.')
 
