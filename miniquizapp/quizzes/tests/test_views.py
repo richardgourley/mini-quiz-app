@@ -69,5 +69,42 @@ class QuizCategoryDetailViewTests(TestCase):
         # quiz_page.save()
 
 
+    def test_detail_view_string_returns_200(self):
+        # Client already exists in TestCase
+        response = self.client.get('/quizzes/category/geography')
+        self.assertTrue(response.status_code == 200)
+
+    def test_detail_view_reverse_returns_200(self):
+        geography = QuizCategory.objects.get(name='Geography')
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        self.assertTrue(response.status_code == 200)
+
+    # Test Context
+
+    def test_length_quiz_page_queryset_in_context(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        quiz_pages = response.context['quizcategory'].quizpage_set.all()
+        self.assertTrue(len(quiz_page) == 1)
+
+    def test_quiz_page_appears_in_quiz_page_queryset_context(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        quiz_pages = response.context['quizcategory'].quizpage_set.all()
+        self.assertEqual(quiz_pages[0].title, 'Capital Cities')
+
+    # Test content
+
+    def test_capital_cities_title_appears_in_detail_view(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        self.assertTrue('Capital Cities' in str(response.content))
+
+    def test_capital_cities_intro_appears_in_detail_view(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        self.assertTrue('A quiz about capital cities.' in str(response.content))
+
+    def test_capital_cities_link_appears_in_detail_view(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        self.assertTrue('<a href="/capital-cities/">' in str(response.content))
+
+
 
 
