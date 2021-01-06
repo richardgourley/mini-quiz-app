@@ -197,6 +197,34 @@ class QuizPageTests(TestCase):
         response = self.client.get('/films-from-1980-1990/')
         self.assertTrue('Steven Spielberg' in str(response.content))
 
+class QuizIndexPageTests(self):
+    @classmethod
+    def setUpTestData(cls):
+        # Non modified object used by all classes
+        food_category = QuizCategory.objects.create(name="Food", slug="food")
+
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        food_quiz_page = QuizPage(
+            title='Italian Food',
+            intro='A quiz about Italian Food.',
+            date=timezone.now(),
+        )
+
+        home_page.add_child(instance=food_quiz_page)
+
+        food_quiz_page.categories.add(food_category)
+
+        quiz_question1 = QuizQuestion.objects.create(
+            page=food_quiz_page,
+            question='Which famous Italian cheese is produced in the Italian regions of Emilia-Romagna and Lombardy?',
+            answer='Parmesan (Parmigiano-Reggiano)'
+        )
+
+
+
 
 
 
