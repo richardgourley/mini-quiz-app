@@ -110,7 +110,7 @@ class QuizCategoryDetailViewTests(TestCase):
         geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
-        self.assertEqual(quiz_pages[0].title, 'Capital Cities')
+        self.assertEqual(quiz_pages.first.title, 'Capital Cities')
 
     # TESTS THE LAST QUIZ USER VISITED IS IN CONTEXT (FROM SESSIONS)
     def test_latest_quiz_in_context(self):
@@ -283,24 +283,49 @@ class QuizIndexPageTests(self):
         
         return home_page.get_children().get(title='Quiz Index Page')
 
+    def test_quiz_index_page_200(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertEqual(response.status_code, 200)
+
+    # CONTENT TESTS
+
+    def test_food_quiz_appears(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('Italian Food' in str(response.content))
+        self.assertTrue('A quiz about Italian Food.' in str(response.content))
+
+    def test_food_quiz_link_appears(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('/quiz-index-page/italian-food/' in str(response.content))
+
+    def test_category_appears_sidebar(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('href="/quizzes/category/food">Food</a>' in str(response.content))
 
 
+    # CONTEXT TESTS
 
+    def test_quiz_pages_in_context(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('quiz_pages' in response.context)
 
+    def test_length_quiz_pages_in_context(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue(len(response.context['quiz_pages']) == 1)
 
+    def test_quiz_pages_first_object_is_food_quiz(self):
+        response = self.client.get('/quiz-index-page/')
+        first = response.context['quiz_pages'].first()
+        self.assertTrue(first.title == 'Italian Food')
+        self.assertTrue(first.url == '/quiz-index-page/italian-food/')
 
+    def test_categories_sidebar_in_context(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('categories_sidebar' in response.context)
 
-
-
-
-
-
-
-
-
-
-
-
-
+    # TESTS THE LATEST QUIZ VISITED IS IN CONTEXT (FROM SESSIONS)
+    def test_latest_quiz_in_context(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue('latest_quiz_visited_info' in response.context)
 
 
