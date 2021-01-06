@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
-from quizzes.models import QuizIndexPage, QuizCategory, QuizPage
+from quizzes.models import QuizIndexPage, QuizCategory, QuizPage, QuizQuestion
 from django.urls import reverse
+from wagtail.core.models import Site
+from django.utils import timezone
 
 class QuizCategoryListViewTests(TestCase):
     @classmethod
@@ -41,6 +43,11 @@ class QuizCategoryListViewTests(TestCase):
     	sports = all_categories.get(name='Sports')
     	self.assertTrue(sports.slug == 'sports')
 
+    # TESTS THE LAST QUIZ USER VISITED IN CONTEXT (FROM SESSIONS)
+    def test_latest_quiz_in_context(self):
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        self.assertTrue('latest_quiz_visited_info' in response.context)
+
 class QuizCategoryDetailViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -68,7 +75,6 @@ class QuizCategoryDetailViewTests(TestCase):
         # In shell, need to save the quiz_page to affect updated category change
         # quiz_page.save()
 
-
     def test_detail_view_string_returns_200(self):
         # Client already exists in TestCase
         response = self.client.get('/quizzes/category/geography')
@@ -90,6 +96,11 @@ class QuizCategoryDetailViewTests(TestCase):
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
         self.assertEqual(quiz_pages[0].title, 'Capital Cities')
+
+    # TESTS THE LAST QUIZ USER VISITED IN CONTEXT (FROM SESSIONS)
+    def test_latest_quiz_in_context(self):
+        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
+        self.assertTrue('latest_quiz_visited_info' in response.context)
 
     # Test content
 
@@ -185,6 +196,18 @@ class QuizPageTests(TestCase):
     def test_answer_appears(self):
         response = self.client.get('/films-from-1980-1990/')
         self.assertTrue('Steven Spielberg' in str(response.content))
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
