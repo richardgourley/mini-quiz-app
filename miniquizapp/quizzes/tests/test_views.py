@@ -51,32 +51,42 @@ class QuizCategoryListViewTests(TestCase):
 class QuizCategoryDetailViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Non modified object used by all classes
-        category = QuizCategory.objects.create(name="Geography", slug="geography")
-
-        '''
-        Get HOME page
-        '''
-        site = Site.objects.get(is_default_site=True)
-        home_page = site.root_page
-
+        # Get 'Quiz Index Page' (or create if doesnt exist)
+        quiz_index_page = self.create_quiz_index_page_if_not_exists()
         
+        '''
+        Create geography category
+        Create geography quiz page
+        Assign geography quiz page as sub page of quiz index page
+        Assign geography category to geography quiz page
+        '''
+        geography_category = QuizCategory.objects.create(name="Geography", slug="geography")
 
-        '''
-        Create and add QUIZPAGE as sub page of HOME page
-        '''
-        quiz_page = QuizPage(
+        geography_quiz_page = QuizPage(
             title='Capital Cities',
             intro='A quiz about capital cities.',
             date=timezone.now(),
         )
-        home_page.add_child(instance=quiz_page)
+        quiz_index_page.add_child(instance=geography_quiz_page)
 
-        # assign 'geography' category
-        quiz_page.categories.add(category)
+        geography_quiz_page.categories.add(geography_category)
 
-        # In shell, need to save the quiz_page to affect updated category change
-        # quiz_page.save()
+    def create_quiz_index_page_if_not_exists(self):
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
+        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
+            quiz_index_page=QuizIndexPage(
+                title='Quiz Index Page',
+                intro='Welcome to our quiz index page.',
+                slug='quiz-index-page'
+            )
+            home_page.add_child(instance=quiz_index_page)
+        
+        return home_page.get_children().get(title='Quiz Index Page')
+
 
     def test_detail_view_string_returns_200(self):
         # Client already exists in TestCase
@@ -91,33 +101,39 @@ class QuizCategoryDetailViewTests(TestCase):
     # Test Context
 
     def test_length_quiz_page_queryset_in_context(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
         self.assertTrue(len(quiz_page) == 1)
 
     def test_quiz_page_appears_in_quiz_page_queryset_context(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
         self.assertEqual(quiz_pages[0].title, 'Capital Cities')
 
-    # TESTS THE LAST QUIZ USER VISITED IN CONTEXT (FROM SESSIONS)
+    # TESTS THE LAST QUIZ USER VISITED IS IN CONTEXT (FROM SESSIONS)
     def test_latest_quiz_in_context(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         self.assertTrue('latest_quiz_visited_info' in response.context)
 
     # Test content
 
     def test_capital_cities_title_appears_in_detail_view(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         self.assertTrue('Capital Cities' in str(response.content))
 
     def test_capital_cities_intro_appears_in_detail_view(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         self.assertTrue('A quiz about capital cities.' in str(response.content))
 
     def test_capital_cities_link_appears_in_detail_view(self):
+        geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
-        self.assertTrue('<a href="/capital-cities/">' in str(response.content))
+        self.assertTrue('<a href="/quiz-index-page/capital-cities/">' in str(response.content))
 
 class QuizPageTests(TestCase):
     @classmethod
