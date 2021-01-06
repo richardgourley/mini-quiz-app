@@ -59,6 +59,9 @@ class QuizCategoryDetailViewTests(TestCase):
         '''
         site = Site.objects.get(is_default_site=True)
         home_page = site.root_page
+
+        
+
         '''
         Create and add QUIZPAGE as sub page of HOME page
         '''
@@ -200,28 +203,53 @@ class QuizPageTests(TestCase):
 class QuizIndexPageTests(self):
     @classmethod
     def setUpTestData(cls):
-        # Non modified object used by all classes
+        # Get 'Quiz Index Page' (or create if doesnt exist)
+        quiz_index_page = self.create_quiz_index_page_if_not_exists()
+        
+        '''
+        Create food category
+        Create food quiz page
+        Assign food quiz page as sub page of quiz index page
+        Assign food category to food quiz page
+        Add a question to food quiz page
+        '''
         food_category = QuizCategory.objects.create(name="Food", slug="food")
-
-        # Get homepage
-        site = Site.objects.get(is_default_site=True)
-        home_page = site.root_page
-
+        
         food_quiz_page = QuizPage(
             title='Italian Food',
             intro='A quiz about Italian Food.',
             date=timezone.now(),
         )
-
-        home_page.add_child(instance=food_quiz_page)
-
+        
+        quiz_index_page.add_child(instance=food_quiz_page)
+        
         food_quiz_page.categories.add(food_category)
-
-        quiz_question1 = QuizQuestion.objects.create(
+        
+        QuizQuestion.objects.create(
             page=food_quiz_page,
             question='Which famous Italian cheese is produced in the Italian regions of Emilia-Romagna and Lombardy?',
             answer='Parmesan (Parmigiano-Reggiano)'
         )
+    
+    def create_quiz_index_page_if_not_exists(self):
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
+        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
+            quiz_index_page=QuizIndexPage(
+                title='Quiz Index Page',
+                intro='Welcome to our quiz index page.',
+                slug='quiz-index-page'
+            )
+            home_page.add_child(instance=quiz_index_page)
+        
+        return home_page.get_children().get(title='Quiz Index Page')
+
+
+
+
 
 
 
