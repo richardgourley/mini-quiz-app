@@ -43,10 +43,6 @@ class QuizCategoryListViewTests(TestCase):
     	sports = all_categories.get(name='Sports')
     	self.assertTrue(sports.slug == 'sports')
 
-    # TESTS THE LAST QUIZ USER VISITED IN CONTEXT (FROM SESSIONS)
-    def test_latest_quiz_in_context(self):
-        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-        self.assertTrue('latest_quiz_visited_info' in response.context)
 
 class QuizCategoryDetailViewTests(TestCase):
     @classmethod
@@ -89,7 +85,6 @@ class QuizCategoryDetailViewTests(TestCase):
 
 
     def test_detail_view_string_returns_200(self):
-        # Client already exists in TestCase
         response = self.client.get('/quizzes/category/geography')
         self.assertTrue(response.status_code == 200)
 
@@ -111,12 +106,6 @@ class QuizCategoryDetailViewTests(TestCase):
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
         self.assertEqual(quiz_pages.first.title, 'Capital Cities')
-
-    # TESTS THE LAST QUIZ USER VISITED IS IN CONTEXT (FROM SESSIONS)
-    def test_latest_quiz_in_context(self):
-        geography = QuizCategory.objects.get(name='Geography')
-        response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
-        self.assertTrue('latest_quiz_visited_info' in response.context)
 
     # Test content
 
@@ -322,10 +311,5 @@ class QuizIndexPageTests(self):
     def test_categories_sidebar_in_context(self):
         response = self.client.get('/quiz-index-page/')
         self.assertTrue('categories_sidebar' in response.context)
-
-    # TESTS THE LATEST QUIZ VISITED IS IN CONTEXT (FROM SESSIONS)
-    def test_latest_quiz_in_context(self):
-        response = self.client.get('/quiz-index-page/')
-        self.assertTrue('latest_quiz_visited_info' in response.context)
 
 
