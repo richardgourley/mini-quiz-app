@@ -41,7 +41,7 @@ class QuizCategoryListViewTests(TestCase):
     	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
     	all_categories = response.context['all_categories']
     	sports = all_categories.get(name='Sports')
-    	self.assertTrue(sports.slug == 'sports')
+    	self.assertTrue(sports.slug == 'sport')
 
 
 class QuizCategoryDetailViewTests(TestCase):
@@ -225,7 +225,7 @@ class QuizPageTests(TestCase):
         self.assertEqual(page.slug, 'films-from-1980-1990')
 
 
-class QuizIndexPageTests(self):
+class QuizIndexPageTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Get 'Quiz Index Page' (or create if doesnt exist)
