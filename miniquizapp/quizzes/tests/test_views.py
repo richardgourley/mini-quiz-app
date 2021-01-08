@@ -129,6 +129,8 @@ class QuizCategoryDetailViewTests(TestCase):
 class QuizPageTests(TestCase):
     @classmethod
     def setUpTestData(cls):
+        # Get 'Quiz Index Page' (or create if doesnt exist)
+        
         # Get homepage
         site = Site.objects.get(is_default_site=True)
         home_page = site.root_page
@@ -228,7 +230,21 @@ class QuizIndexPageTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Get 'Quiz Index Page' (or create if doesnt exist)
-        quiz_index_page = self.create_quiz_index_page_if_not_exists()
+        
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
+        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
+            quiz_index_page=QuizIndexPage(
+                title='Quiz Index Page',
+                intro='Welcome to our quiz index page.',
+                slug='quiz-index-page'
+            )
+            home_page.add_child(instance=quiz_index_page)
+        
+        quiz_index_page = home_page.get_children().get(title='Quiz Index Page')
         
         '''
         Create food category
@@ -248,6 +264,7 @@ class QuizIndexPageTests(TestCase):
         quiz_index_page.add_child(instance=food_quiz_page)
         
         food_quiz_page.categories.add(food_category)
+        food_quiz_page.save()
         
         QuizQuestion.objects.create(
             page=food_quiz_page,
