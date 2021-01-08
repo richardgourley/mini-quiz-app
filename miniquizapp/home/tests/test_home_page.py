@@ -5,9 +5,9 @@ from wagtail.core.models import Site
 from django.utils import timezone
 
 class HomePageTests(TestCase):
-	@classmethod
-	def setUpTestData(cls):
-		# Get homepage
+    @classmethod
+    def setUpTestData(cls):
+        # Get homepage
         site = Site.objects.get(is_default_site=True)
         home_page = site.root_page
         
@@ -34,69 +34,67 @@ class HomePageTests(TestCase):
         
         # Assign space category to the space quiz page
         space_quiz_page.categories.add(space_category)
-        
-        # Create a question for our space quiz page
-        QuizQuestion.objects.create(
-            page=space_quiz_page,
-            question='How many planets are in the Solar System?',
-            answer='Eight'
-        )
+        space_quiz_page.save()
+
+    '''
+    TEST HOME PAGE STATUS CODE
+    '''
 
     def test_home_page_200(self):
-    	response = self.client.get('/')
-    	self.assertEqual(response.status_code, 200)
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
 
     '''
     CONTEXT TESTS
     '''
 
     def test_latest_quizzes_appears_in_context(self):
-    	response = self.client.get('/')
-    	self.assertTrue('latest_quizzes' in response.context)
+        response = self.client.get('/')
+        self.assertTrue('latest_quizzes' in response.context)
 
     def test_latest_quizzes_length_one(self):
-    	response = self.client.get('/')
-    	self.assertTrue(len(response.context['latest_quizzes']) == 1)
+        response = self.client.get('/')
+        self.assertTrue(len(response.context['latest_quizzes']) == 1)
 
     def test_all_categories_appears_in_context(self):
         response = self.client.get('/')
         self.assertTrue('all_categories' in response.context)
 
     def test_all_categories_length_one(self):
-    	response = self.client.get('/')
-    	self.assertTrue(len(response.context['all_categories']) == 1)
+        response = self.client.get('/')
+        self.assertTrue(len(response.context['all_categories']) == 1)
 
     '''
     CONTENT TESTS
     '''
 
     def test_home_title(self):
-    	response = self.client.get('/')
-    	self.assertTrue('Mini Quiz App' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('Mini Quiz App' in str(response.content))
 
     def test_navbar_home_link(self):
-    	response = self.client.get('/')
-    	self.assertTrue('href="/">Home' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('href="/">Home' in str(response.content))
 
     def test_navbar_quiz_categories_link(self):
-    	response = self.client.get('/')
-    	self.assertTrue('href="/quizzes/categories/">Quiz Categories</a>' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('href="/quizzes/categories/">Quiz Categories</a>' in str(response.content))
 
     def test_navbar_quiz_index_page_link(self):
-    	response = self.client.get('/')
-    	self.assertTrue('href="/quiz-index-page/">Quiz Index</a>' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('href="/quiz-index-page/">Quiz Index</a>' in str(response.content))
 
     def test_quiz_page_appears(self):
-    	response = self.client.get('/')
-    	self.assertTrue('<a href="/quiz-index-page/space-quiz/">' in str(response.content))
-    	self.assertTrue('Space Quiz' in str(response.content))
-    	self.assertTrue('A quiz about our solar system.' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('<a href="/quiz-index-page/space-quiz/">' in str(response.content))
+        self.assertTrue('Space Quiz' in str(response.content))
+        self.assertTrue('A quiz about our solar system.' in str(response.content))
 
     def test_quiz_category_appears(self):
-    	response = self.client.get('/')
-    	self.assertTrue('<a href="/quizzes/category/space">' in str(response.content))
-    	self.assertTrue('Space' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('<a href="/quizzes/category/space">' in str(response.content))
+        self.assertTrue('Space' in str(response.content))
 
     def test_call_to_action_link(self):
-    	response = self.client.get('/')
-    	self.assertTrue('<a href="/quiz-index-page/">' in str(response.content))
+        response = self.client.get('/')
+        self.assertTrue('<a href="/quiz-index-page/">' in str(response.content))
