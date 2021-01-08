@@ -129,8 +129,20 @@ class QuizCategoryDetailViewTests(TestCase):
 class QuizPageTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Get 'Quiz Index Page' (or create if doesnt exist)
-        quiz_index_page = self.create_quiz_index_page_if_not_exists()
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
+        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
+            quiz_index_page=QuizIndexPage(
+                title='Quiz Index Page',
+                intro='Welcome to our quiz index page.',
+                slug='quiz-index-page'
+            )
+            home_page.add_child(instance=quiz_index_page)
+        
+        quiz_index_page = home_page.get_children().get(title='Quiz Index Page')
         
         '''
         Create film category
@@ -149,28 +161,13 @@ class QuizPageTests(TestCase):
         quiz_index_page.add_child(instance=film_quiz_page)
 
         film_quiz_page.categories.add(film_category)
+        film_quiz_page.save()
 
         QuizQuestion.objects.create(
             page=film_quiz_page,
             question='Who directed the 1981 film the Raiders of the Lost Ark?',
             answer='Steven Spielberg'
         )
-
-    def create_quiz_index_page_if_not_exists(self):
-        # Get homepage
-        site = Site.objects.get(is_default_site=True)
-        home_page = site.root_page
-
-        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
-        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
-            quiz_index_page=QuizIndexPage(
-                title='Quiz Index Page',
-                intro='Welcome to our quiz index page.',
-                slug='quiz-index-page'
-            )
-            home_page.add_child(instance=quiz_index_page)
-        
-        return home_page.get_children().get(title='Quiz Index Page')
 
     def test_film_quiz_page_200(self):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
@@ -218,12 +215,12 @@ class QuizPageTests(TestCase):
     
     def test_page_title(self):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
-        page = response.content['page']
+        page = response.context['page']
         self.assertEqual(page.title, 'Films from 1980-1990')
 
     def test_page_slug(self):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
-        page = response.content['page']
+        page = response.context['page']
         self.assertEqual(page.slug, 'films-from-1980-1990')
 
 
