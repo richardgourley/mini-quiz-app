@@ -17,38 +17,52 @@ class QuizCategoryListViewTests(TestCase):
     # Content tests
 
     def test_sports_category_title_appears(self):
-    	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-    	title = 'Sports'
-    	self.assertTrue(title in str(response.content))
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        title = 'Sports'
+        self.assertTrue(title in str(response.content))
 
     def test_sports_category_link_appears(self):
-    	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-    	link = '<a href="/quizzes/category/sport">'
-    	self.assertTrue(link in str(response.content))
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        link = '<a href="/quizzes/category/sport">'
+        self.assertTrue(link in str(response.content))
 
     # Context tests
 
     def test_all_categories_appears_in_context(self):
-    	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-    	self.assertTrue('all_categories' in response.context)
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        self.assertTrue('all_categories' in response.context)
 
     def test_length_all_categories_is_one(self):
-    	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-    	all_categories = response.context['all_categories']
-    	self.assertTrue(len(all_categories) == 1)
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        all_categories = response.context['all_categories']
+        self.assertTrue(len(all_categories) == 1)
 
     def test_sports_appears_in_all_categories(self):
-    	response = self.client.get(reverse('quizzes:quiz_category_list_view'))
-    	all_categories = response.context['all_categories']
-    	sports = all_categories.get(name='Sports')
-    	self.assertTrue(sports.slug == 'sport')
+        response = self.client.get(reverse('quizzes:quiz_category_list_view'))
+        all_categories = response.context['all_categories']
+        sports = all_categories.get(name='Sports')
+        self.assertTrue(sports.slug == 'sport')
 
 
 class QuizCategoryDetailViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Get 'Quiz Index Page' (or create if doesnt exist)
-        quiz_index_page = self.create_quiz_index_page_if_not_exists()
+        
+        # Get homepage
+        site = Site.objects.get(is_default_site=True)
+        home_page = site.root_page
+
+        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
+        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
+            quiz_index_page=QuizIndexPage(
+                title='Quiz Index Page',
+                intro='Welcome to our quiz index page.',
+                slug='quiz-index-page'
+            )
+            home_page.add_child(instance=quiz_index_page)
+        
+        quiz_index_page = home_page.get_children().get(title='Quiz Index Page')
         
         '''
         Create geography category
@@ -66,30 +80,18 @@ class QuizCategoryDetailViewTests(TestCase):
         quiz_index_page.add_child(instance=geography_quiz_page)
 
         geography_quiz_page.categories.add(geography_category)
+        geography_quiz_page.save()
 
-    def create_quiz_index_page_if_not_exists(self):
-        # Get homepage
-        site = Site.objects.get(is_default_site=True)
-        home_page = site.root_page
-
-        # If 'Quiz Index Page doesn't exist, create it and add as sub page of home
-        if len(home_page.get_children().filter(title='Quiz Index Page')) == 0:
-            quiz_index_page=QuizIndexPage(
-                title='Quiz Index Page',
-                intro='Welcome to our quiz index page.',
-                slug='quiz-index-page'
-            )
-            home_page.add_child(instance=quiz_index_page)
-        
-        return home_page.get_children().get(title='Quiz Index Page')
-
+    def test_quiz_index_page_200(self):
+        response = self.client.get('/quiz-index-page/')
+        self.assertTrue(response.status_code == 200)
 
     def test_detail_view_string_returns_200(self):
         response = self.client.get('/quizzes/category/geography')
         self.assertTrue(response.status_code == 200)
 
     def test_detail_view_reverse_returns_200(self):
-        geography = QuizCategory.objects.get(name='Geography')
+        geography = QuizCategory.objects.get(id=1)
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         self.assertTrue(response.status_code == 200)
 
@@ -99,13 +101,13 @@ class QuizCategoryDetailViewTests(TestCase):
         geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
-        self.assertTrue(len(quiz_page) == 1)
+        self.assertEqual(len(quiz_pages), 1)
 
     def test_quiz_page_appears_in_quiz_page_queryset_context(self):
         geography = QuizCategory.objects.get(name='Geography')
         response = self.client.get(reverse('quizzes:quiz_category_detail_view', args=(geography.slug,)))
         quiz_pages = response.context['quizcategory'].quizpage_set.all()
-        self.assertEqual(quiz_pages.first.title, 'Capital Cities')
+        self.assertEqual(quiz_pages.first().title, 'Capital Cities')
 
     # Test content
 
