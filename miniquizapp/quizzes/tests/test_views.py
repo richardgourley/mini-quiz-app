@@ -175,7 +175,7 @@ class QuizPageTests(TestCase):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
         self.assertTrue(response.status_code == 200)
 
-    # CONTENT TESTS (CATEGORIES, BUTTONS, JS FILES)
+    # CONTENT TESTS (CATEGORIES, BUTTONS)
 
     def test_categories_appear(self):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
@@ -186,10 +186,6 @@ class QuizPageTests(TestCase):
     def test_reveal_answers_button_appears(self):
         response = self.client.get('/quiz-index-page/films-from-1980-1990/')
         self.assertTrue('REVEAL ANSWERS!</button>' in str(response.content))
-
-    def test_js_quiz_page_loaded(self):
-        response = self.client.get('/quiz-index-page/films-from-1980-1990/')
-        self.assertTrue('<script type="text/javascript" src="/static/quizzes/js/quizzes.js"></script>' in str(response.content))
 
     # CONTENT TESTS (QUESTION APPEARS TESTS)
     
