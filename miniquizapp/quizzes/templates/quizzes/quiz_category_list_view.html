@@ -14,10 +14,10 @@
     <div class="row">
 
     	<!-- Sidebar -->
-    	<div class="col-md-3 bg-light p-5">
+    	<div class="col-md-3 bg-primary p-5">
     		<!-- Displays last quiz visited -->
     		{% if latest_quiz_visited_info %}
-				<h5><strong>Recently visited:</strong></h5>
+				<h5 class="text-white"><strong>Recently visited:</strong></h5>
 				<p>
 					<a href="{{ latest_quiz_visited_info.url }}">
 					    <small>{{ latest_quiz_visited_info.title }}</small>
